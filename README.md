@@ -1,10 +1,10 @@
 # 🧮 PCA from Scratch – A Linear Algebra Approach
 
-https://img.shields.io/badge/Python-3.8%252B-blue.svg
-https://img.shields.io/badge/NumPy-1.24%252B-green.svg
-https://img.shields.io/badge/Matplotlib-3.6%252B-orange.svg
-https://img.shields.io/badge/License-MIT-yellow.svg
-https://img.shields.io/badge/Status-Complete-brightgreen.svg
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+![NumPy](https://img.shields.io/badge/NumPy-1.24%2B-green.svg)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-3.6%2B-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)
 
 ## 📋 Table of Contents
 
@@ -16,6 +16,7 @@ https://img.shields.io/badge/Status-Complete-brightgreen.svg
 - [How It Works](#how-it-works)
 - [Technical Details](#technical-details)
 - [Challenges & Solutions](#challenges)
+- [Key Learning Setup](#key-learning-setup)
 - [Installation & Setup](#installation-setup)
 - [Developer](#developer)
 - [License](#license)
@@ -26,7 +27,7 @@ https://img.shields.io/badge/Status-Complete-brightgreen.svg
 
 ## 📖 Overview
 
-PCA from Scratch is a complete implementation of Principal Component Analysis (PCA) using only NumPy, without relying on high-level machine learning libraries like scikit-learn.  
+PCA from Scratch is a complete implementation of Principal Component Analysis (PCA) using only NumPy, while scikit-learn is used only to load the dataset.  
 This project was developed as the final project for the "Linear Algebra" course, demonstrating how abstract mathematical concepts such as vector spaces, eigenvalues, eigenvectors, orthogonality, and change of basis come together to build a powerful dimensionality reduction tool used extensively in artificial intelligence and data science.
 
 ### 🎯 Project Objective
@@ -98,7 +99,7 @@ PCA/
 | **1** | Data Loading | Load digits dataset (1797 samples, 64 features) |
 | **2** | Centering | `B = X - μ` (subtract column means) |
 | **3** | Covariance Matrix | `C = (BᵀB) / (m-1)` |
-| **4** | QR Decomposition | `C = QR → C₁ = RQ` (similarity test) |
+| **4** | Demonstration of the QR iteration process | `C = QR → C₁ = RQ` (similarity test) |
 | **5** | Eigendecomposition | `C = QΛQᵀ` using `np.linalg.eigh` |
 | **6** | Explained Variance | `Ratio = λᵢ / Σλ`, cumulative plot |
 | **7** | Dimensionality Reduction | `T = B W` (project onto top‑k eigenvectors) |
@@ -129,9 +130,9 @@ PCA/
 
 ### 1. Explained Variance
 
-The plot shows individual and cumulative explained variance ratios. With 10 principal components, we preserve over 90% of the total variance of the original 64‑dimensional data.
+The plot shows individual and cumulative explained variance ratios. For the digits dataset used in this project, 10 principal components, we preserve over 90% of the total variance of the original 64‑dimensional data.
 
-![Variance](Picures/Variance.png)
+![Variance](Pictures/Variance.png)
 
 ### 2. 2D Projection of Digits
 
@@ -422,6 +423,17 @@ Understanding why reconstruction error decreases as `k` increases, and why `k = 
 **Solution:**  
 Visualised the MSE for different `k` values. The plot clearly shows that error drops sharply from `k = 1` to `k = 10`, then gradually approaches zero. This aligns with the **Eckart–Young theorem**, which states that the best rank‑`k` approximation of a matrix is obtained by keeping the top‑`k` singular vectors – exactly what PCA does.
 
+<a id="key-learning-setup"></a>
+
+## Key Learning Outcomes
+
+- Matrix factorisation
+- Orthogonality
+- Eigendecomposition
+- Covariance analysis
+- Numerical linear algebra
+- Dimensionality reduction
+- Scientific computing with NumPy
 
 <a id="installation-setup"></a>
 
