@@ -2,12 +2,10 @@ import numpy
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 
-# a function to load tha pictures for the digits
-
 
 def load_data():
     '''
-    First Step: Load and explore the datasets
+    Step 1: Load and explore the datasets
     Returns:
         X: feature matrix
         Y: labels
@@ -32,3 +30,24 @@ def load_data():
     mean_vector = numpy.mean(X, 0)
 
     return X, Y, m, n, first_sample, mean_vector
+
+
+def Center_data(X, mean_vector):
+    '''
+    Step 2: Center the data by subtracting the mean of each feature
+    Input:
+        X: feature matrix (m * n)
+        mean_vector: mean of each feature
+    Returns:
+        X_centered: centerd data matrix
+        mean_vector: mean of rach feature
+    '''
+    
+    # subtract the mean of each sample
+    X_centered = X - mean_vector
+    
+    # verify the centring proccess
+    column_mean = numpy.mean(X_centered, 0)
+    
+    return X_centered
+    
