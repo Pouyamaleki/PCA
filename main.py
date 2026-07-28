@@ -40,9 +40,7 @@ def qr_algorithm(C, num_iterations=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
     Returns:
-        C_current: matrix after QR iterations
         Q_matrices: list of Q matrices from each iteration
-        R_matrices: list of R matrices from each iteration
     '''
     C_current = C.copy()
     Q_matrices = []
@@ -55,7 +53,7 @@ def qr_algorithm(C, num_iterations=3):
         C_new = numpy.dot(R, Q)
         C_current = C_new
 
-    return C_current, Q_matrices, R_matrices
+    return  Q_matrices
 
 
 def demo_on_small_matrix():
@@ -260,6 +258,7 @@ def m_less_than_n(X, y):
     eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
     index = numpy.argsort(eigenvalues_subset)[::-1]
     eigenvectors_subset = eigenvectors_subset[:, index]
+    eigenvalues_subset = eigenvalues_subset[index]
 
     tolerance = 1e-10
     non_zero_count = numpy.sum(eigenvalues_subset >= tolerance)
@@ -319,7 +318,7 @@ def main():
     print(f"Step 3: Covariance matrix shape {C.shape}")
 
     # Step 4: QR Algorithm
-    C_final, Q_list, R_list = qr_algorithm(C, num_iterations=3)
+    Q_list = qr_algorithm(C, num_iterations=3)
     print(f"Step 4: QR algorithm completed with {len(Q_list)} iterations")
 
     # QR Demo on small matrix
