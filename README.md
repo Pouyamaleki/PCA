@@ -366,7 +366,7 @@ Since the covariance matrix `C` is **symmetric** (`Cᵀ = C`) and **positive sem
 - ✅ **Faster computation:** especially for large matrices (64×64 in this project)
 - ✅ **Correct output:** avoids complex eigenvalues caused by floating‑point errors
 
-> **Tip:** Always use `eigh()` when working with symmetric matrices in scientific computing.
+**Tip:** Always use `eigh()` when working with symmetric matrices in scientific computing.
 
 
 <a id="challenges"></a>
@@ -375,7 +375,7 @@ Since the covariance matrix `C` is **symmetric** (`Cᵀ = C`) and **positive sem
 
 During the implementation of this project, several conceptual and numerical challenges arose. Here’s how they were addressed:
 
-### 1. **Numerical Stability of Eigendecomposition**
+### 1️⃣ **Numerical Stability of Eigendecomposition**
 
 **Challenge:**  
 The covariance matrix `C` can become ill‑conditioned when features are highly correlated, leading to small or even negative eigenvalues due to floating‑point errors.
@@ -385,7 +385,7 @@ Used `np.linalg.eigh()` instead of `np.linalg.eig()`. Since `C` is symmetric, `e
 
 ---
 
-### 2. **Centering and Its Effect on Principal Components**
+### 2️⃣ **Centering and Its Effect on Principal Components**
 
 **Challenge:**  
 Many students forget to center the data before computing the covariance matrix. Without centering, the first principal component points toward the mean direction rather than the direction of maximum variance.
@@ -395,7 +395,7 @@ Explicitly computed the column‑wise mean `μ` and subtracted it from every sam
 
 ---
 
-### 3. **Choosing the Optimal Number of Components (k)**
+### 3️⃣ **Choosing the Optimal Number of Components (k)**
 
 **Challenge:**  
 Selecting an arbitrary `k` (number of principal components) can lead to under‑fitting (too few components) or over‑fitting (too many components, defeating the purpose of dimensionality reduction).
@@ -405,7 +405,7 @@ Used the **explained variance ratio** and cumulative variance plot. The optimal 
 
 ---
 
-### 4. **m < n Case – Understanding Zero Eigenvalues**
+### 4️⃣ **m < n Case – Understanding Zero Eigenvalues**
 
 **Challenge:**  
 When `m < n` (fewer samples than features), the covariance matrix becomes singular and has many zero eigenvalues. This was conceptually confusing.
@@ -415,7 +415,7 @@ Took a random subset of `m = 50` samples and computed the eigenvalues. The numbe
 
 ---
 
-### 5. **Reconstruction Error and the Eckart–Young Theorem**
+### 5️⃣ **Reconstruction Error and the Eckart–Young Theorem**
 
 **Challenge:**  
 Understanding why reconstruction error decreases as `k` increases, and why `k = n` gives nearly perfect reconstruction.
@@ -425,7 +425,7 @@ Visualised the MSE for different `k` values. The plot clearly shows that error d
 
 <a id="key-learning-setup"></a>
 
-## Key Learning Outcomes
+## 🎯 Key Learning Outcomes
 
 - Matrix factorisation
 - Orthogonality
@@ -441,9 +441,9 @@ Visualised the MSE for different `k` values. The plot clearly shows that error d
 
 ### Prerequisites
 
-- [Python 3.8+](https://www.python.org/downloads/)
-- [pip](https://pip.pypa.io/en/stable/installation/)
-- [Git](https://git-scm.com/install/)
+- [Python 3.8+](https://www.python.org/downloads/) – The core programming language used to run the project and all its scripts.
+- [pip](https://pip.pypa.io/en/stable/installation/) – The package installer for Python, required to install the project dependencies listed in `requirements.txt`.
+- [Git](https://git-scm.com/install/) – Version control system used to clone the repository and manage the project source code.
 
 ### Installation
 
