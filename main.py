@@ -161,16 +161,40 @@ def eigen_decomposition(C):
     Input:
         C: Covatiance matrix (m * n)
     Return:
-        eigenvalues: sorted eigen values in decending order
+        eigenvalues: sorted eigen values in descending order
         eigenvectors: sorted eigenvectors corresponding to eigenvalues
     '''
-    
+
     # compute eigenvalues and eigenvectors using eigh
     eigenvalues, eigenvectors = numpy.linalg.eigh(C)
-    
-    # sort eigen values in decending order
+
+    # sort eigen values in descending order
     index = numpy.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[index]
     eigenvectors = eigenvectors[:, index]
-    
+
     return eigenvalues, eigenvectors
+
+
+def explained_variance(eigenvalues):
+    '''
+    Step 6: Calculate and visualize explained variance ratio
+    Input:
+        eigenvalues: sorted eigenvalues in descending order
+    Returns:
+        explained_variance_ratio: ratio of each eigenvalue to total sum (n,)
+        cumulative_variance: cumulative sum of explained variance ratios (n,)
+        k_90: number of components needed to preserve 90% variance
+    '''
+
+    # Calculate explained variance ratio
+    total_variance = numpy.sum(eigenvalues)
+    explained_variance_ratio = eigenvalues / total_variance
+
+    # Calculate cumulative_variance
+    cumulative_variance = numpy.cumsum(explained_variance_ratio)
+
+    # find number of components for 90% variance
+    k_90 = numpy.argmax(cumulative_variance >= 0.90) + 1
+
+    return explained_variance_ratio, cumulative_variance, k_90
