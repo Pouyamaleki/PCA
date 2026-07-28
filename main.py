@@ -32,6 +32,7 @@ def covariance_matrix(X_centered):
     '''
     m = X_centered.shape[0]
     C = (1 / (m - 1)) * numpy.dot(X_centered.T, X_centered)
+    print("Covariance matrix is symmetric:", numpy.allclose(C, C.T))
     return C
 
 
@@ -88,7 +89,8 @@ def demo_on_small_matrix():
     nullity = A.shape[0] - rank
     print(f"\nRank of A: {rank}")
     print(f"Nullity of A: {nullity}")
-    print(f"Are columns of Q linearly independent? {numpy.linalg.matrix_rank(Q) == Q.shape[1]}")
+    print(
+        f"Are columns of Q linearly independent? {numpy.linalg.matrix_rank(Q) == Q.shape[1]}")
     print("=" * 50)
 
     return A, Q, R, A1
@@ -122,14 +124,16 @@ def explained_variance(eigenvalues):
     plt.figure(figsize=(12, 5))
 
     plt.subplot(1, 2, 1)
-    plt.bar(range(1, len(explained_variance_ratio) + 1), explained_variance_ratio)
+    plt.bar(range(1, len(explained_variance_ratio) + 1),
+            explained_variance_ratio)
     plt.xlabel('Principal Component')
     plt.ylabel('Explained Variance Ratio')
     plt.title('Individual Explained Variance')
     plt.grid(True, alpha=0.3)
 
     plt.subplot(1, 2, 2)
-    plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, 'ro-')
+    plt.plot(range(1, len(cumulative_variance) + 1),
+             cumulative_variance, 'ro-')
     plt.axhline(y=0.90, color='k', linestyle='--', label='90% threshold')
     plt.axvline(x=k_90, color='g', linestyle='--', label=f'k={k_90}')
     plt.xlabel('Number of Components')
@@ -199,10 +203,13 @@ def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
     plt.xticks(k_values)
     plt.show()
 
-    # Show sample reconstructions for k=10 and k=30
-    show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=2)
-    show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=10)
-    show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=30)
+    # Show sample reconstructions for k=2, k=10 and k=30
+    show_sample_reconstruction(
+        X, X_centered, eigenvectors, mean_vector, y, k=2)
+    show_sample_reconstruction(
+        X, X_centered, eigenvectors, mean_vector, y, k=10)
+    show_sample_reconstruction(
+        X, X_centered, eigenvectors, mean_vector, y, k=30)
 
     return errors
 
@@ -247,7 +254,8 @@ def m_less_than_n(X, y):
     X_centered_subset = X_subset - mean_vector_subset
 
     m, n = X_centered_subset.shape
-    C_subset = (1 / (m - 1)) * numpy.dot(X_centered_subset.T, X_centered_subset)
+    C_subset = (1 / (m - 1)) * \
+        numpy.dot(X_centered_subset.T, X_centered_subset)
 
     eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
     index = numpy.argsort(eigenvalues_subset)[::-1]
@@ -259,14 +267,14 @@ def m_less_than_n(X, y):
 
     # show the values of Non zero and zero counts
     print(f"Number of near-zero eigenvalues: {zero_count}")
-    print(f"Number of non-zero eigenvalues: {non_zero_count}")
 
     # Visualize eigenvalues
     plt.figure(figsize=(12, 5))
 
     plt.subplot(1, 2, 1)
     plt.bar(range(1, len(eigenvalues_subset) + 1), eigenvalues_subset)
-    plt.axhline(y=tolerance, color='r', linestyle='--', label=f'Tolerance = {tolerance}')
+    plt.axhline(y=tolerance, color='r', linestyle='--',
+                label=f'Tolerance = {tolerance}')
     plt.xlabel('Index')
     plt.ylabel('Eigenvalue')
     plt.title(f'Eigenvalues (m={m_subset}, n={n})')
@@ -320,10 +328,12 @@ def main():
 
     # Step 5: Eigen Decomposition
     eigenvalues, eigenvectors = eigen_decomposition(C)
-    print(f"Step 5: Eigen decomposition completed - {len(eigenvalues)} eigenvalues")
+    print(
+        f"Step 5: Eigen decomposition completed - {len(eigenvalues)} eigenvalues")
 
     # Step 6: Explained Variance
-    explained_variance_ratio, cumulative_variance, k_90 = explained_variance(eigenvalues)
+    explained_variance_ratio, cumulative_variance, k_90 = explained_variance(
+        eigenvalues)
     print(f"Step 6: 90% variance preserved with {k_90} components")
 
     # Step 7: Dimensionality Reduction
@@ -340,7 +350,8 @@ def main():
     print("Step 9: Reconstruction error analysis completed")
 
     # Step 10: m < n Case
-    eigenvalues_subset, eigenvectors_subset, X_centered_subset = m_less_than_n(X, y)
+    eigenvalues_subset, eigenvectors_subset, X_centered_subset = m_less_than_n(
+        X, y)
     print("Step 10: m < n case analysis completed")
 
     print("=" * 60)
