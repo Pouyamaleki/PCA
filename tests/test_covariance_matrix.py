@@ -3,7 +3,9 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
-from main import load_data, center_data, covariance_matrix
+from main import load_data
+from main import center_data
+from main import covariance_matrix
 
 def test():
     print("\n🧪 Testing covariance_matrix...")

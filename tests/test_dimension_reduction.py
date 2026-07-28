@@ -3,7 +3,11 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
-from main import load_data, center_data, covariance_matrix, eigen_decomposition, dimension_reduction
+from main import load_data
+from main import center_data
+from main import covariance_matrix
+from main import eigen_decomposition
+from main import dimension_reduction
 
 def test():
     print("\n🧪 Testing dimension_reduction...")
