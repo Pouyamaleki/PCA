@@ -238,8 +238,7 @@ def visualize_2D(X_centered, eigenvectors, y):
 
     # create scatter plot
     plt.figure(figsize=(10, 8))
-    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y,
-                          cmap="tab10", alpha=0.7, s=30)
+    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y, cmap="tab10", alpha=0.7, s=30)
     plt.colorbar(scatter, label="Digit Label")
     plt.xlabel("First Principal Component")
     plt.ylabel("Second Principal Component")
@@ -297,3 +296,45 @@ def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
 
     return errors
 
+
+def show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k, sample_index=0):
+    """
+    Show original vs reconstructed image for a specific sample
+    Input:
+        X: original data matrix (m x n)
+        X_centered: centered data matrix (m x n)
+        eigenvectors: sorted eigenvectors matrix (n x n)
+        mean_vector: mean of each feature (n,)
+        y: labels (m,)
+        k: number of components to use
+        sample_index: index of sample to display
+    """
+
+    # Select first k eigenvectors
+    W = eigenvectors[:, :k]
+
+    # Project and reconstruct
+    T = numpy.dot(X_centered[sample_index], W)
+    X_reconstructed = numpy.dot(T, W.T) + mean_vector
+
+    # Reshape to 8x8
+    original_image = X[sample_index].reshape(8, 8)
+    reconstructed_image = X_reconstructed.reshape(8, 8)
+
+    # Plot
+    plt.figure(figsize=(8, 4))
+
+    # Original
+    plt.subplot(1, 2, 1)
+    plt.imshow(original_image, cmap="gray")
+    plt.title(f"Original Image\nLabel: {y[sample_index]}")
+    plt.axis("off")
+
+    # Reconstructed
+    plt.subplot(1, 2, 2)
+    plt.imshow(reconstructed_image, cmap="gray")
+    plt.title(f"Reconstructed with k={k}")
+    plt.axis("off")
+
+    plt.tight_layout()
+    plt.show()
