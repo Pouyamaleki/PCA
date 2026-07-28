@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 
@@ -14,7 +14,7 @@ def load_data():
     digits = load_digits()
     X = digits.data
     Y = digits.target
-    mean_vector = numpy.mean(X, 0)
+    mean_vector = np.mean(X, 0)
     return X, Y, mean_vector
 
 
@@ -31,8 +31,8 @@ def covariance_matrix(X_centered):
     Step 3: Compute the covariance matrix
     '''
     m = X_centered.shape[0]
-    C = (1 / (m - 1)) * numpy.dot(X_centered.T, X_centered)
-    print("Covariance matrix is symmetric:", numpy.allclose(C, C.T))
+    C = (1 / (m - 1)) * np.dot(X_centered.T, X_centered)
+    print("Covariance matrix is symmetric:", np.allclose(C, C.T))
     return C
 
 
@@ -44,13 +44,11 @@ def qr_algorithm(C, num_iterations=3):
     '''
     C_current = C.copy()
     Q_matrices = []
-    R_matrices = []
 
     for _ in range(num_iterations):
-        Q, R = numpy.linalg.qr(C_current, "reduced")
+        Q, R = np.linalg.qr(C_current, "reduced")
         Q_matrices.append(Q)
-        R_matrices.append(R)
-        C_new = numpy.dot(R, Q)
+        C_new = np.dot(R, Q)
         C_current = C_new
 
     return  Q_matrices
@@ -64,24 +62,24 @@ def demo_on_small_matrix():
     print("QR Algorithm Demo on 4x4 Symmetric Matrix")
     print("=" * 50)
 
-    numpy.random.seed(42)
-    A = numpy.random.randn(4, 4)
-    A = numpy.dot(A, A.T)  # symmetric positive definite
+    np.random.seed(42)
+    A = np.random.randn(4, 4)
+    A = np.dot(A, A.T)  # symmetric positive definite
 
     print("Original matrix A:\n", A)
-    print(f"\nEigenvalues of A: {numpy.linalg.eigvalsh(A)}")
+    print(f"\nEigenvalues of A: {np.linalg.eigvalsh(A)}")
 
-    Q, R = numpy.linalg.qr(A, mode='reduced')
-    A1 = numpy.dot(R, Q)
+    Q, R = np.linalg.qr(A, mode='reduced')
+    A1 = np.dot(R, Q)
 
     print("\nAfter one QR iteration:")
     print("Q (orthogonal):\n", Q)
     print("\nR (upper triangular):\n", R)
     print("\nA1 = R * Q:\n", A1)
-    print(f"Eigenvalues of A1: {numpy.linalg.eigvalsh(A1)}")
+    print(f"Eigenvalues of A1: {np.linalg.eigvalsh(A1)}")
 
-    # detrmine similarity between the A1 and A
-    is_similar = numpy.allclose(A1, numpy.dot(numpy.dot(Q.T, A), Q))
+    # determine similarity between the A1 and A
+    is_similar = np.allclose(A1, np.dot(np.dot(Q.T, A), Q))
     print("Is A1 similar to A?\n")
     if(is_similar):
         print("Yes\n")
@@ -89,12 +87,12 @@ def demo_on_small_matrix():
         print("No\n")
         
     # a section to show the Rank and Nullity of A
-    rank = numpy.linalg.matrix_rank(A)
+    rank = np.linalg.matrix_rank(A)
     nullity = A.shape[0] - rank
     print(f"\nRank of A: {rank}")
     print(f"Nullity of A: {nullity}")
     print(
-        f"Are columns of Q linearly independent? {numpy.linalg.matrix_rank(Q) == Q.shape[1]}")
+        f"Are columns of Q linearly independent? {np.linalg.matrix_rank(Q) == Q.shape[1]}")
     print("=" * 50)
 
     return A, Q, R, A1
@@ -104,8 +102,8 @@ def eigen_decomposition(C):
     '''
     Step 5: Compute eigenvalues and eigenvectors of covariance matrix
     '''
-    eigenvalues, eigenvectors = numpy.linalg.eigh(C)
-    index = numpy.argsort(eigenvalues)[::-1]
+    eigenvalues, eigenvectors = np.linalg.eigh(C)
+    index = np.argsort(eigenvalues)[::-1]
     eigenvalues = eigenvalues[index]
     eigenvectors = eigenvectors[:, index]
     return eigenvalues, eigenvectors
@@ -119,10 +117,10 @@ def explained_variance(eigenvalues):
         cumulative_variance: (n,)
         k_90: number of components for 90% variance
     '''
-    total_variance = numpy.sum(eigenvalues)
+    total_variance = np.sum(eigenvalues)
     explained_variance_ratio = eigenvalues / total_variance
-    cumulative_variance = numpy.cumsum(explained_variance_ratio)
-    k_90 = numpy.argmax(cumulative_variance >= 0.90) + 1
+    cumulative_variance = np.cumsum(explained_variance_ratio)
+    k_90 = np.argmax(cumulative_variance >= 0.90) + 1
 
     # Visualization
     plt.figure(figsize=(12, 5))
@@ -157,7 +155,7 @@ def dimension_reduction(X_centered, eigenvectors, k):
     Step 7: Reduce dimensionality by projecting data onto k eigenvectors
     '''
     W = eigenvectors[:, :k]
-    T = numpy.dot(X_centered, W)
+    T = np.dot(X_centered, W)
     return W, T
 
 
@@ -168,7 +166,7 @@ def visualize_2d(X_centered, eigenvectors, y):
         T2: projected data in 2D
     '''
     W2 = eigenvectors[:, :2]
-    T2 = numpy.dot(X_centered, W2)
+    T2 = np.dot(X_centered, W2)
 
     plt.figure(figsize=(10, 8))
     scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y,
@@ -192,9 +190,9 @@ def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
 
     for i in k_values:
         W = eigenvectors[:, :i]
-        T = numpy.dot(X_centered, W)
-        X_reconstructed = numpy.dot(T, W.T) + mean_vector
-        mse = numpy.mean((X - X_reconstructed) ** 2)
+        T = np.dot(X_centered, W)
+        X_reconstructed = np.dot(T, W.T) + mean_vector
+        mse = np.mean((X - X_reconstructed) ** 2)
         errors.append(mse)
 
     # Plot reconstruction error
@@ -223,8 +221,8 @@ def show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k, s
     Show original vs reconstructed image for a specific sample
     """
     W = eigenvectors[:, :k]
-    T = numpy.dot(X_centered[sample_index], W)
-    X_reconstructed = numpy.dot(T, W.T) + mean_vector
+    T = np.dot(X_centered[sample_index], W)
+    X_reconstructed = np.dot(T, W.T) + mean_vector
 
     original_image = X[sample_index].reshape(8, 8)
     reconstructed_image = X_reconstructed.reshape(8, 8)
@@ -250,25 +248,25 @@ def m_less_than_n(X, y):
     Step 10: Analyze the case where m < n (fewer samples than features)
     """
     m_subset = 50
-    numpy.random.seed(42)
-    indices = numpy.random.choice(X.shape[0], m_subset, replace=False)
+    np.random.seed(42)
+    indices = np.random.choice(X.shape[0], m_subset, replace=False)
     X_subset = X[indices, :]
 
-    mean_vector_subset = numpy.mean(X_subset, axis=0)
+    mean_vector_subset = np.mean(X_subset, axis=0)
     X_centered_subset = X_subset - mean_vector_subset
 
     m, n = X_centered_subset.shape
     C_subset = (1 / (m - 1)) * \
-        numpy.dot(X_centered_subset.T, X_centered_subset)
+        np.dot(X_centered_subset.T, X_centered_subset)
 
-    eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
-    index = numpy.argsort(eigenvalues_subset)[::-1]
+    eigenvalues_subset, eigenvectors_subset = np.linalg.eigh(C_subset)
+    index = np.argsort(eigenvalues_subset)[::-1]
     eigenvectors_subset = eigenvectors_subset[:, index]
     eigenvalues_subset = eigenvalues_subset[index]
 
     tolerance = 1e-10
-    non_zero_count = numpy.sum(eigenvalues_subset >= tolerance)
-    zero_count = numpy.sum(eigenvalues_subset < tolerance)
+    non_zero_count = np.sum(eigenvalues_subset >= tolerance)
+    zero_count = np.sum(eigenvalues_subset < tolerance)
 
     # show the values of Non zero and zero counts
     print(f"Number of near-zero eigenvalues: {zero_count}")
