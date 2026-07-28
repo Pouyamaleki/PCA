@@ -80,9 +80,15 @@ def demo_on_small_matrix():
     print("\nA1 = R * Q:\n", A1)
     print(f"Eigenvalues of A1: {numpy.linalg.eigvalsh(A1)}")
 
+    # detrmine similarity between the A1 and A
     is_similar = numpy.allclose(A1, numpy.dot(numpy.dot(Q.T, A), Q))
-    print(f"\nIs A1 similar to A? {is_similar}")
-
+    print("Is A1 similar to A?\n")
+    if(is_similar):
+        print("Yes\n")
+    else:
+        print("No\n")
+        
+    # a section to show the Rank and Nullity of A
     rank = numpy.linalg.matrix_rank(A)
     nullity = A.shape[0] - rank
     print(f"\nRank of A: {rank}")
