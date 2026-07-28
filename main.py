@@ -153,3 +153,24 @@ def demo_on_small_matrix():
     print(
         f"\nAre columns of Q linearly independent? {numpy.linalg.matrix_rank(Q) == Q.shape[1]}")
     print("=" * 50)
+
+
+def eigen_decomposition(C):
+    '''
+    Step 5: Compute eigenvalues and eigenvectors of covariance matrix
+    Input:
+        C: Covatiance matrix (m * n)
+    Return:
+        eigenvalues: sorted eigen values in decending order
+        eigenvectors: sorted eigenvectors corresponding to eigenvalues
+    '''
+    
+    # compute eigenvalues and eigenvectors using eigh
+    eigenvalues, eigenvectors = numpy.linalg.eigh(C)
+    
+    # sort eigen values in decending order
+    index = numpy.argsort(eigenvalues)[::-1]
+    eigenvalues = eigenvalues[index]
+    eigenvectors = eigenvectors[:, index]
+    
+    return eigenvalues, eigenvectors
