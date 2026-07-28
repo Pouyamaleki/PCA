@@ -46,9 +46,6 @@ def Center_data(X, mean_vector):
     # subtract the mean of each sample
     X_centered = X - mean_vector
 
-    # verify the centring proccess
-    column_mean = numpy.mean(X_centered, 0)
-
     return X_centered
 
 
@@ -62,8 +59,8 @@ def Covariance_matrix(X_centered):
         is_symmetric: is covariance matrix symmetric or no
     '''
 
-    #
-    m, n = X_centered.shape
+    # get the row of the Centered matrix
+    m = X_centered.shape[0]
 
     # Compute the covariance matrix
     C = (1 / (m-1)) * numpy.dot(X_centered.t, X_centered)
@@ -72,3 +69,15 @@ def Covariance_matrix(X_centered):
     is_symmetric = numpy.allclose(C, C.t)
 
     return C, is_symmetric
+
+
+def QR_algorithm(C, num_iteration=3):
+    '''
+    Step 4: QR algorithm for eigenvalue computation
+    Input:
+        C: Covariance matrix (m * n)
+        Q_matrices: list of Q matrices from each iteration
+        R_matrices: list of R matrices from each iteration
+    '''
+    
+    # 
