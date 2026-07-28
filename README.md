@@ -27,7 +27,7 @@
 
 ## 📖 Overview
 
-PCA from Scratch is a complete implementation of Principal Component Analysis (PCA) using only NumPy, while scikit-learn is used only to load the dataset.  
+PCA from Scratch is a complete implementation of Principal Component Analysis (PCA) using only NumPy for all linear algebra computations, while scikit-learn is used solely to load the digits dataset  
 This project was developed as the final project for the "Linear Algebra" course, demonstrating how abstract mathematical concepts such as vector spaces, eigenvalues, eigenvectors, orthogonality, and change of basis come together to build a powerful dimensionality reduction tool used extensively in artificial intelligence and data science.
 
 ### 🎯 Project Objective
@@ -131,7 +131,7 @@ PCA/
 
 ### 1️⃣ Explained Variance
 
-The plot shows individual and cumulative explained variance ratios. For the digits dataset used in this project, 10 principal components, we preserve over 90% of the total variance of the original 64‑dimensional data.
+The plot shows individual and cumulative explained variance ratios. For the digits dataset used in this project, the first 10 principal components preserve over 90% of the total variance.of the total variance of the original 64‑dimensional data.
 
 ![Variance](Pictures/Variance.png)
 
@@ -496,7 +496,7 @@ pytest
 
 **Tip:** If you run pytest from the project root, it automatically discovers all test files inside the tests/ folder. No need to cd into the directory.
 
-### Requirments
+### Requirements
 
 The `requirements.txt` file contains:
 
