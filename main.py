@@ -29,7 +29,7 @@ def load_data():
     # compute mean of each feature
     mean_vector = numpy.mean(X, 0)
 
-    return X, Y, m, n, first_sample, mean_vector
+    return X, Y, mean_vector
 
 
 def Center_data(X, mean_vector):
