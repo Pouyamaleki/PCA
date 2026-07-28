@@ -236,16 +236,16 @@ When the number of samples `m` is smaller than the number of features `n`, the c
 
 ### Algorithm Walkthrough
 
-**Load the dataset:** `sklearn.datasets.load_digits()` provides 1797 images of size 8×8.  
-**Centre the data:** Compute the mean of each pixel column and subtract it.  
-**Compute covariance:** `C = (B.T @ B) / (m-1)` gives a `64×64` matrix.  
-**Perform eigendecomposition:** Use `np.linalg.eigh()` (specialised for symmetric matrices) to get eigenvalues and eigenvectors.  
-**Sort eigenvalues:** Descending order to identify the most important components.  
-**Analyse variance:** Plot explained variance ratio and cumulative variance; find `k` for 90% variance.  
-**Reduce dimensions:** Project centered data onto the first `k` eigenvectors.  
-**Visualise in 2D:** Scatter plot with colours representing digit labels.  
-**Reconstruct and evaluate:** Rebuild images from reduced representation and compute MSE for various k.  
-**Explore m < n:** Take a subset of 50 samples and observe the number of zero eigenvalues.
+📥 **Load the dataset:** `sklearn.datasets.load_digits()` provides 1797 images of size 8×8.  
+📐 **Centre the data:** Compute the mean of each pixel column and subtract it.  
+📊 **Compute covariance:** `C = (B.T @ B) / (m-1)` gives a `64×64` matrix.  
+🔢 **Perform eigendecomposition:** Use `np.linalg.eigh()` (specialised for symmetric matrices) to get eigenvalues and eigenvectors.  
+📈 **Sort eigenvalues:** Descending order to identify the most important components.  
+📉 **Analyse variance:** Plot explained variance ratio and cumulative variance; find `k` for 90% variance.  
+🔽 **Reduce dimensions:** Project centered data onto the first `k` eigenvectors.  
+🎨 **Visualise in 2D:** Scatter plot with colours representing digit labels.  
+🔄 **Reconstruct and evaluate:** Rebuild images from reduced representation and compute MSE for various k.  
+🔍**Explore m < n:** Take a subset of 50 samples and observe the number of zero eigenvalues.
 
 ### Why Does PCA Work?
 
