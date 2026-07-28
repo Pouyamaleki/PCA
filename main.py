@@ -9,9 +9,6 @@ def load_data():
     Returns:
         X: feature matrix
         Y: labels
-        m: number of samples
-        n: number of features
-        first_sample: first picture as a vector
         mean_vector: mean of each feature
     '''
 
@@ -19,12 +16,6 @@ def load_data():
     digits = load_digits()
     X = digits.data   # Feature matrix
     Y = digits.target  # Labels
-
-    # get the dimentions
-    m, n = X.shape
-
-    # get the first image
-    first_sample = X[0]
 
     # compute mean of each feature
     mean_vector = numpy.mean(X, 0)
@@ -40,7 +31,6 @@ def Center_data(X, mean_vector):
         mean_vector: mean of each feature
     Returns:
         X_centered: centerd data matrix
-        mean_vector: mean of rach feature
     '''
 
     # subtract the mean of each sample
@@ -56,7 +46,6 @@ def Covariance_matrix(X_centered):
         X_centered: centered data matrix (m * n)
     Returns:
         C: Covariance matrix (m * n)
-        is_symmetric: is covariance matrix symmetric or no
     '''
 
     # get the row of the Centered matrix
@@ -65,13 +54,10 @@ def Covariance_matrix(X_centered):
     # Compute the covariance matrix
     C = (1 / (m-1)) * numpy.dot(X_centered.T, X_centered)
 
-    # check if the covariance matrix is symmetric or no
-    is_symmetric = numpy.allclose(C, C.T)
-
-    return C, is_symmetric
+    return C
 
 
-def QR_algorithm(C, num_iteration=3):
+def QR_algorithm(C, num_iterations=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
     Input:
@@ -81,17 +67,15 @@ def QR_algorithm(C, num_iteration=3):
         C_current: matrix after QR iteration
         Q_matrices: list of Q matrices from each iteration
         R_matrices: list of R matrices from each iteration
-        is_similar: a varibale that check the similarity
     '''
 
     # create and get the needed matrices
-    n = C.shape[0]
     C_current = C.copy()
     Q_matrices = []
     R_matrices = []
 
     # a for loop to decomposition QR {num_iteration} times
-    for _ in range(num_iteration):
+    for _ in range(num_iterations):
         # QR decomposition -> C = Q * R (reduced mode)
         Q, R = numpy.linalg.qr(C_current, "reduced")
 
@@ -188,7 +172,7 @@ def dimention_reduction(X_centered, eigenvectors, k):
     '''
 
     # select first k eigen vectors
-    W = eigenvectors[:, :, k]
+    W = eigenvectors[:, :k]
 
     # project data in to new subspace
     T = numpy.dot(X_centered, W)
@@ -206,7 +190,7 @@ def visualize_2D(X_centered, eigenvectors, y):
     '''
 
     # select first 2 aigenvectors
-    W2 = eigenvectors[:, :, 2]
+    W2 = eigenvectors[:, :2]
 
     # project data into 2D space
     T2 = numpy.dot(X_centered, W2)
@@ -342,9 +326,9 @@ def m_less_than_n(X, y):
     eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
 
     # Sort eigenvalues in descending order
-    idx = numpy.argsort(eigenvalues_subset)[::-1]
-    eigenvalues_subset = eigenvalues_subset[idx]
-    eigenvectors_subset = eigenvectors_subset[:, idx]
+    index = numpy.argsort(eigenvalues_subset)[::-1]
+    eigenvalues_subset = eigenvalues_subset[index]
+    eigenvectors_subset = eigenvectors_subset[:, index]
 
     # Count zero (or near-zero) eigenvalues
     tolerance = 1e-10
@@ -357,7 +341,7 @@ def m_less_than_n(X, y):
     plt.bar(range(1, len(eigenvalues_subset) + 1), eigenvalues_subset)
     plt.axhline(y=tolerance, color='r', linestyle='--',
                 label=f'Tolerance = {tolerance}')
-    plt.xlabel('Index')
+    plt.xlabel('index')
     plt.ylabel('Eigenvalue')
     plt.title(f'Eigenvalues (m={m_subset}, n={n})')
     plt.legend()
@@ -367,11 +351,10 @@ def m_less_than_n(X, y):
     non_zero_eigenvalues = eigenvalues_subset[eigenvalues_subset >= tolerance]
     plt.subplot(1, 2, 2)
     plt.bar(range(1, len(non_zero_eigenvalues) + 1), non_zero_eigenvalues)
-    plt.xlabel('Index')
+    plt.xlabel('index')
     plt.ylabel('Eigenvalue')
     plt.title(f'Non-zero Eigenvalues ({len(non_zero_eigenvalues)} components)')
     plt.grid(True, alpha=0.3)
-
     plt.tight_layout()
     plt.show()
 
