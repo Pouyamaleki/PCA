@@ -401,3 +401,80 @@ def m_less_than_n(X, y):
     plt.show()
 
     return eigenvalues_subset, eigenvectors_subset, X_centered_subset
+
+
+def main():
+    """
+    Main function: Execute all steps of the PCA project
+    """
+    print("=" * 60)
+    print("PCA Project - Linear Algebra Final Project")
+    print("=" * 60)
+    
+    # ===== Step 1: Load Data =====
+    X, y, mean_vector = load_data()
+    print(f"Step 1: Loaded data with shape {X.shape}")
+    
+    # ===== Step 2: Center Data =====
+    X_centered = Center_data(X, mean_vector)
+    print(f"Step 2: Centered data with shape {X_centered.shape}")
+    
+    # ===== Step 3: Covariance Matrix =====
+    C = Covariance_matrix(X_centered)
+    print(f"Step 3: Covariance matrix shape {C.shape}")
+    
+    # ===== Step 4: QR Algorithm =====
+    C_final, Q_list, R_list = QR_algorithm(C, num_iterations=3)
+    print(f"Step 4: QR algorithm completed with {len(Q_list)} iterations")
+    
+    # QR Demo on small matrix
+    A, Q, R, A1 = demo_on_small_matrix()
+    print(f"Step 4 Demo: QR on 4x4 matrix completed")
+    
+    # ===== Step 5: Eigen Decomposition =====
+    eigenvalues, eigenvectors = eigen_decomposition(C)
+    print(f"Step 5: Eigen decomposition completed - {len(eigenvalues)} eigenvalues")
+    
+    # ===== Step 6: Explained Variance =====
+    explained_variance_ratio, cumulative_variance, k_90 = explained_variance(eigenvalues)
+    print(f"Step 6: 90% variance preserved with {k_90} components")
+    explained_variance(explained_variance_ratio, cumulative_variance, k_90)
+    
+    # ===== Step 7: Dimensionality Reduction =====
+    k = 10
+    W, T = dimention_reduction(X_centered, eigenvectors, k)
+    print(f"Step 7: Reduced dimensions from {X_centered.shape[1]} to {k}")
+    
+    # ===== Step 8: 2D Visualization =====
+    T2 = visualize_2D(X_centered, eigenvectors, y)
+    print(f"Step 8: 2D visualization completed")
+    
+    # ===== Step 9: Reconstruction Error =====
+    errors = reconstruction_error(X, X_centered, eigenvectors, mean_vector, y)
+    print(f"Step 9: Reconstruction error analysis completed")
+    
+    # ===== Step 10: m < n Case =====
+    eigenvalues_subset, eigenvectors_subset, X_centered_subset = m_less_than_n(X, y)
+    print(f"Step 10: m < n case analysis completed")
+    
+    print("=" * 60)
+    print("All steps completed successfully!")
+    print("=" * 60)
+    
+    # Return all important variables for further analysis if needed
+    return {
+        'X': X,
+        'y': y,
+        "X_centered": X_centered,
+        "mean_vector": mean_vector,
+        'C': C,
+        "eigenvalues": eigenvalues,
+        "eigenvectors": eigenvectors,
+        "explained_variance_ratio": explained_variance_ratio,
+        "cumulative_variance": cumulative_variance,
+        "k_90": k_90,
+        "W": W,
+        "T": T,
+        "T2": T2,
+        "errors": errors
+    }
