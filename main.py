@@ -35,7 +35,7 @@ def load_data():
 def Center_data(X, mean_vector):
     '''
     Step 2: Center the data by subtracting the mean of each feature
-    Inumpyut:
+    Input:
         X: feature matrix (m * n)
         mean_vector: mean of each feature
     Returns:
@@ -52,7 +52,7 @@ def Center_data(X, mean_vector):
 def Covariance_matrix(X_centered):
     '''
     Step 3: Compute the covariance matrix
-    Inumpyut:
+    Input:
         X_centered: centered data matrix (m * n)
     Returns:
         C: Covariance matrix (m * n)
@@ -74,7 +74,7 @@ def Covariance_matrix(X_centered):
 def QR_algorithm(C, num_iteration=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
-    Inumpyut:
+    Input:
         C: Covariance matrix (m * n)
         num_iteration: number of QR iteration to perform
     Returns:
@@ -238,10 +238,62 @@ def visualize_2D(X_centered, eigenvectors, y):
 
     # create scatter plot
     plt.figure(figsize=(10, 8))
-    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y, cmap="tab10", alpha=0.7, s=30)
+    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y,
+                          cmap="tab10", alpha=0.7, s=30)
     plt.colorbar(scatter, label="Digit Label")
     plt.xlabel("First Principal Component")
     plt.ylabel("Second Principal Component")
     plt.title("PCA Visualization: Digits in 2D Space")
     plt.grid(True, alpha=0.3)
     plt.show()
+
+
+def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
+    """
+    Step 9: Reconstruct data and analyze reconstruction error
+    Input:
+        X: original data matrix (m * n)
+        X_centered: centered data matrix (m * n)
+        eigenvectors: sorted eigenvectors matrix (n * n)
+        mean_vector: mean of each feature
+        y: labels
+    Returns:
+        errors: list of MSE errors for different k values
+    """
+
+    # Test different k values
+    k_values = [1, 5, 10, 15, 20, 30, 40, 50, 64]
+    errors = []
+
+    for i in k_values:
+        # Select first k eigenvectors
+        W = eigenvectors[:, :i]
+
+        # Project data
+        T = numpy.dot(X_centered, W)
+
+        # Reconstruct data
+        X_reconstructed = numpy.dot(T, W.T) + mean_vector
+
+        # Calculate Mean Squared Error (MSE)
+        mse = numpy.mean((X - X_reconstructed) ** 2)
+        errors.append(mse)
+
+    # Plot reconstruction error
+    plt.figure(figsize=(10, 6))
+    plt.plot(k_values, errors, "bo-", linewidth=2, markersize=8)
+    plt.xlabel("Number of Components (k)")
+    plt.ylabel("Mean Squared Error (MSE)")
+    plt.title("Reconstruction Error vs Number of Components")
+    plt.grid(True, alpha=0.3)
+    plt.xticks(k_values)
+    plt.show()
+
+    # Show sample reconstruction for k=10 and k=30
+    show_sample_reconstruction(
+        X, X_centered, eigenvectors, mean_vector, y, k=10)
+    show_sample_reconstruction(
+        X, X_centered, eigenvectors, mean_vector, y, k=30)
+
+    return errors
+
