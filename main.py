@@ -35,7 +35,7 @@ def load_data():
 def Center_data(X, mean_vector):
     '''
     Step 2: Center the data by subtracting the mean of each feature
-    Input:
+    Inumpyut:
         X: feature matrix (m * n)
         mean_vector: mean of each feature
     Returns:
@@ -52,7 +52,7 @@ def Center_data(X, mean_vector):
 def Covariance_matrix(X_centered):
     '''
     Step 3: Compute the covariance matrix
-    Input:
+    Inumpyut:
         X_centered: centered data matrix (m * n)
     Returns:
         C: Covariance matrix (m * n)
@@ -74,7 +74,7 @@ def Covariance_matrix(X_centered):
 def QR_algorithm(C, num_iteration=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
-    Input:
+    Inumpyut:
         C: Covariance matrix (m * n)
         num_iteration: number of QR iteration to perform
     Returns:
@@ -101,8 +101,55 @@ def QR_algorithm(C, num_iteration=3):
 
         # update the C matrix
         C_new = numpy.dot(R, Q)
-        
+
         # check the similarity
-        is_similar = numpy.allclose(C_new, numpy.dot(numpy.dot(Q.t, Q), numpy.eye(n)))
-        
-        return C_current, Q_matrices, R_matrices, is_similar 
+        is_similar = numpy.allclose(
+            C_new, numpy.dot(numpy.dot(Q.t, Q), numpy.eye(n)))
+
+        return C_current, Q_matrices, R_matrices, is_similar
+
+
+def demo_on_small_matrix():
+    """
+    Demo QR algorithm on a small symmetric matrix (4x4)
+    """
+    print("\n" + "=" * 50)
+    print("QR Algorithm Demo on 4x4 Symmetric Matrix")
+    print("=" * 50)
+
+    # Create a random symmetric 4x4 matrix
+    numpy.random.seed(42)
+    A = numpy.random.randn(4, 4)
+    A = numpy.dot(A, A.T)  # Make it symmetric positive definite
+
+    print("original matrix A:")
+    print(A)
+    print(f"\nEigenvalues of A: {numpy.linalg.eigvalsh(A)}")
+
+    # perform one QR iteration
+    Q, R = numpy.linalg.qr(A, mode='reduced')
+    A1 = numpy.dot(R, Q)
+
+    print("\nafter one QR iteration:")
+    print("Q (orthogonal):")
+    print(Q)
+    print("\nR (upper triangular):")
+    print(R)
+    print("\nA1 = R * Q:")
+    print(A1)
+    print(f"Eigenvalues of A1: {numpy.linalg.eigvalsh(A1)}")
+
+    # Check if A1 is similar to A
+    is_similar = numpy.allclose(A1, numpy.dot(numpy.dot(Q.T, A), Q))
+    print(f"\nIs A1 similar to A? {is_similar}")
+
+    # Rank and nullity
+    rank = numpy.linalg.matrix_rank(A)
+    nullity = A.shape[0] - rank
+    print(f"\nRank of A: {rank}")
+    print(f"Nullity of A: {nullity}")
+
+    # Check linear independence of columns of Q
+    print(
+        f"\nAre columns of Q linearly independent? {numpy.linalg.matrix_rank(Q) == Q.shape[1]}")
+    print("=" * 50)
