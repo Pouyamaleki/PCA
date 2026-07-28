@@ -199,6 +199,7 @@ def explained_variance(eigenvalues):
 
     return explained_variance_ratio, cumulative_variance, k_90
 
+
 def dimention_reduction(X_centered, eigenvectors, k):
     '''
     Step 7: Reduce dimentionality by projecting data in to k eigenvector
@@ -210,12 +211,37 @@ def dimention_reduction(X_centered, eigenvectors, k):
         W: projection matrix (n * k)
         T: projected data (m * k)
     '''
-    
+
     # select first k eigen vectors
     W = eigenvectors[:, :, k]
-    
+
     # project data in to new subspace
     T = numpy.dot(X_centered, W)
-    
+
     return W, T
-    
+
+
+def visualize_2D(X_centered, eigenvectors, y):
+    '''
+    Step 8: Visualize data in 20 space using first 2 principal componenet
+    Input:
+        X_centered: centered data matrix (m * n)
+        eigenvectors: sorted eigenvectors matrix (n * n)
+        y: labels
+    '''
+
+    # select first 2 aigenvectors
+    W2 = eigenvectors[:, :, 2]
+
+    # project data into 2D space
+    T2 = numpy.dot(X_centered, W2)
+
+    # create scatter plot
+    plt.figure(figsize=(10, 8))
+    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y, cmap="tab10", alpha=0.7, s=30)
+    plt.colorbar(scatter, label="Digit Label")
+    plt.xlabel("First Principal Component")
+    plt.ylabel("Second Principal Component")
+    plt.title("PCA Visualization: Digits in 2D Space")
+    plt.grid(True, alpha=0.3)
+    plt.show()
