@@ -35,7 +35,7 @@ def covariance_matrix(X_centered):
     return C
 
 
-def QR_algorithm(C, num_iterations=3):
+def qr_algorithm(C, num_iterations=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
     Returns:
@@ -153,7 +153,7 @@ def dimension_reduction(X_centered, eigenvectors, k):
     return W, T
 
 
-def visualize_2D(X_centered, eigenvectors, y):
+def visualize_2d(X_centered, eigenvectors, y):
     '''
     Step 8: Visualize data in 2D space using first 2 principal components
     Returns:
@@ -251,7 +251,6 @@ def m_less_than_n(X, y):
 
     eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
     index = numpy.argsort(eigenvalues_subset)[::-1]
-    eigenvalues_subset = eigenvalues_subset[index]
     eigenvectors_subset = eigenvectors_subset[:, index]
 
     tolerance = 1e-10
@@ -312,7 +311,7 @@ def main():
     print(f"Step 3: Covariance matrix shape {C.shape}")
 
     # Step 4: QR Algorithm
-    C_final, Q_list, R_list = QR_algorithm(C, num_iterations=3)
+    C_final, Q_list, R_list = qr_algorithm(C, num_iterations=3)
     print(f"Step 4: QR algorithm completed with {len(Q_list)} iterations")
 
     # QR Demo on small matrix
@@ -333,7 +332,7 @@ def main():
     print(f"Step 7: Reduced dimensions from {X_centered.shape[1]} to {k}")
 
     # Step 8: 2D Visualization
-    T2 = visualize_2D(X_centered, eigenvectors, y)
+    T2 = visualize_2d(X_centered, eigenvectors, y)
     print("Step 8: 2D visualization completed")
 
     # Step 9: Reconstruction Error
