@@ -76,8 +76,33 @@ def QR_algorithm(C, num_iteration=3):
     Step 4: QR algorithm for eigenvalue computation
     Input:
         C: Covariance matrix (m * n)
+        num_iteration: number of QR iteration to perform
+    Returns:
+        C_current: matrix after QR iteration
         Q_matrices: list of Q matrices from each iteration
         R_matrices: list of R matrices from each iteration
+        is_similar: a varibale that check the similarity
     '''
-    
-    # 
+
+    # create and get the needed matrices
+    n = C.shape[0]
+    C_current = C.copy()
+    Q_matrices = []
+    R_matrices = []
+
+    # a for loop to decomposition QR {num_iteration} times
+    for _ in range(num_iteration):
+        # QR decomposition -> C = Q * R (reduced mode)
+        Q, R = numpy.linalg.qr(C_current, "reduced")
+
+        # store Q & R for analysis
+        Q_matrices.append(Q)
+        R_matrices.append(R)
+
+        # update the C matrix
+        C_new = numpy.dot(R, Q)
+        
+        # check the similarity
+        is_similar = numpy.allclose(C_new, numpy.dot(numpy.dot(Q.t, Q), numpy.eye(n)))
+        
+        return C_current, Q_matrices, R_matrices, is_similar 
