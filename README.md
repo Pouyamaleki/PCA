@@ -37,6 +37,7 @@ Reduce high‑dimensional data (64‑pixel images) to lower dimensions while pre
 Visualise and analyse the results using plots and reconstructions.  
 Explore the role of rank, nullity, orthogonality, and eigendecomposition in real‑world data analysis.
 
+---
 
 <a id="project-structure"></a>
 
@@ -128,19 +129,19 @@ PCA/
 
 ## 📈 Results & Visualisations
 
-### 1. Explained Variance
+### 1️⃣ Explained Variance
 
 The plot shows individual and cumulative explained variance ratios. For the digits dataset used in this project, 10 principal components, we preserve over 90% of the total variance of the original 64‑dimensional data.
 
 ![Variance](Pictures/Variance.png)
 
-### 2. 2D Projection of Digits
+### 2️⃣ 2D Projection of Digits
 
 Projecting the 64‑dimensional digits onto the first two principal components reveals natural clustering. Digits that look similar (e.g., 4 and 9, 3 and 8) tend to overlap, which matches our intuition about handwritten digit similarity.
 
 ![2D_Projection](Pictures/PCA_in_2D.png)
 
-### 3. Reconstruction Quality
+### 3️⃣ Reconstruction Quality
 
 #### Reconstruction Error vs. Number of Components
 
@@ -155,7 +156,7 @@ Projecting the 64‑dimensional digits onto the first two principal components r
 
 *_As expected, the reconstruction error decreases as we add more principal components. With all 64 components, the reconstruction is nearly perfect._*
 
-### 4. Sample Reconstructions
+### 4️⃣ Sample Reconstructions
 
 | k = 2 | k = 10 | k = 30 |
 |-------|--------|--------|
@@ -168,11 +169,11 @@ Projecting the 64‑dimensional digits onto the first two principal components r
 
 ## 🔬 Mathematical Pipeline
 
-### Step 1: Data Representation
+### Step 1️⃣: Data Representation
 
 Each image is a vector in ℝ⁶⁴. The dataset matrix X has shape (m, n) where m = 1797 samples and n = 64 features.
 
-### Step 2: Centering (Translation)
+### Step 2️⃣: Centering (Translation)
 
 We subtract the mean of each feature:
 
@@ -181,7 +182,7 @@ B = X - μ
 ```
 - **Why?** Without centering, the first principal component would point toward the mean direction rather than the direction of maximum variance.
 
-### Step 3: Covariance Matrix
+### Step 3️⃣: Covariance Matrix
 
 ```
 C = (BᵀB) / (m - 1)
@@ -191,7 +192,7 @@ C = (BᵀB) / (m - 1)
 
 - **Meaning:** Captures how each pair of features varies together.
 
-### Step 4: Eigendecomposition
+### Step 4️⃣: Eigendecomposition
 
 Since `C` is symmetric, it can be diagonalised as:
 
@@ -203,7 +204,7 @@ where:
 - Λ is a diagonal matrix of eigenvalues (variance explained by each component).
 - Q is an orthogonal matrix of eigenvectors (directions of principal components).
 
-### Step 5: Dimensionality Reduction (Change of Basis)
+### Step 5️⃣: Dimensionality Reduction (Change of Basis)
 
 We choose the top‑`k` eigenvectors (columns of `W`) and project the centered data:
 
@@ -214,7 +215,7 @@ T = B W
 - This is a **change of basis** from the standard basis to the principal component basis.
 - The new representation `T` has dimension `m × k`, with `k < n`.
 
-### Step 6: Reconstruction
+### Step 6️⃣: Reconstruction
 
 We can reconstruct an approximation of the original data:
 
@@ -225,7 +226,7 @@ X̂ = T Wᵀ + μ
 - The reconstruction error is measured by **Mean Squared Error (MSE)**.
 - Adding more components reduces the error (Eckart–Young theorem).
 
-### Step 7: m < n Case
+### Step 7️⃣: m < n Case
 
 When the number of samples `m` is smaller than the number of features `n`, the covariance matrix has at most `m-1` **non‑zero eigenvalues**. The remaining eigenvalues are zero, indicating that the data lies in a subspace of dimension at most `m-1`.
 
