@@ -63,10 +63,10 @@ def Covariance_matrix(X_centered):
     m = X_centered.shape[0]
 
     # Compute the covariance matrix
-    C = (1 / (m-1)) * numpy.dot(X_centered.t, X_centered)
+    C = (1 / (m-1)) * numpy.dot(X_centered.T, X_centered)
 
     # check if the covariance matrix is symmetric or no
-    is_symmetric = numpy.allclose(C, C.t)
+    is_symmetric = numpy.allclose(C, C.T)
 
     return C, is_symmetric
 
@@ -104,9 +104,9 @@ def QR_algorithm(C, num_iteration=3):
 
         # check the similarity
         is_similar = numpy.allclose(
-            C_new, numpy.dot(numpy.dot(Q.t, Q), numpy.eye(n)))
+            C_new, numpy.dot(numpy.dot(Q.T, Q), numpy.eye(n)))
 
-        return C_current, Q_matrices, R_matrices, is_similar
+    return C_current, Q_matrices, R_matrices, is_similar
 
 
 def demo_on_small_matrix():
