@@ -238,7 +238,8 @@ def visualize_2D(X_centered, eigenvectors, y):
 
     # create scatter plot
     plt.figure(figsize=(10, 8))
-    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y, cmap="tab10", alpha=0.7, s=30)
+    scatter = plt.scatter(T2[:, 0], T2[:, 1], c=y,
+                          cmap="tab10", alpha=0.7, s=30)
     plt.colorbar(scatter, label="Digit Label")
     plt.xlabel("First Principal Component")
     plt.ylabel("Second Principal Component")
@@ -338,3 +339,65 @@ def show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k, s
 
     plt.tight_layout()
     plt.show()
+
+
+def m_less_than_n(X, y):
+    """
+    Step 10: Analyze the case where m < n (fewer samples than features)
+    Input:
+        X: original data matrix (m x n)
+        y: labels (m,)
+    """
+    
+    # Randomly select a subset of samples (m < n)
+    m_subset = 50  # Choose 50 samples (less than 64 features)
+    numpy.random.seed(42)
+    indices = numpy.random.choice(X.shape[0], m_subset, replace=False)
+    X_subset = X[indices, :]
+
+    # Center the subset data
+    mean_vector_subset = numpy.mean(X_subset, axis=0)
+    X_centered_subset = X_subset - mean_vector_subset
+
+    # Compute covariance matrix
+    m, n = X_centered_subset.shape
+    C_subset = (1 / (m - 1)) * numpy.dot(X_centered_subset.T, X_centered_subset)
+
+    # Compute eigenvalues
+    eigenvalues_subset, eigenvectors_subset = numpy.linalg.eigh(C_subset)
+
+    # Sort eigenvalues in descending order
+    idx = numpy.argsort(eigenvalues_subset)[::-1]
+    eigenvalues_subset = eigenvalues_subset[idx]
+    eigenvectors_subset = eigenvectors_subset[:, idx]
+
+    # Count zero (or near-zero) eigenvalues
+    tolerance = 1e-10
+
+    # Visualize eigenvalues
+    plt.figure(figsize=(12, 5))
+
+    # Plot 1: All eigenvalues
+    plt.subplot(1, 2, 1)
+    plt.bar(range(1, len(eigenvalues_subset) + 1), eigenvalues_subset)
+    plt.axhline(y=tolerance, color='r', linestyle='--',
+                label=f'Tolerance = {tolerance}')
+    plt.xlabel('Index')
+    plt.ylabel('Eigenvalue')
+    plt.title(f'Eigenvalues (m={m_subset}, n={n})')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+
+    # Plot 2: Non-zero eigenvalues only
+    non_zero_eigenvalues = eigenvalues_subset[eigenvalues_subset >= tolerance]
+    plt.subplot(1, 2, 2)
+    plt.bar(range(1, len(non_zero_eigenvalues) + 1), non_zero_eigenvalues)
+    plt.xlabel('Index')
+    plt.ylabel('Eigenvalue')
+    plt.title(f'Non-zero Eigenvalues ({len(non_zero_eigenvalues)} components)')
+    plt.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+
+    return eigenvalues_subset, eigenvectors_subset, X_centered_subset
