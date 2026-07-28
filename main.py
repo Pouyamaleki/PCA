@@ -198,3 +198,24 @@ def explained_variance(eigenvalues):
     k_90 = numpy.argmax(cumulative_variance >= 0.90) + 1
 
     return explained_variance_ratio, cumulative_variance, k_90
+
+def dimention_reduction(X_centered, eigenvectors, k):
+    '''
+    Step 7: Reduce dimentionality by projecting data in to k eigenvector
+    Input:
+        X_centered: centered data matrix (m * n)
+        eigenvectors: sorted eigenvectors matrix (n * n)
+        k: number of dimention to keep
+    Returns:
+        W: projection matrix (n * k)
+        T: projected data (m * k)
+    '''
+    
+    # select first k eigen vectors
+    W = eigenvectors[:, :, k]
+    
+    # project data in to new subspace
+    T = numpy.dot(X_centered, W)
+    
+    return W, T
+    
