@@ -18,7 +18,7 @@ def load_data():
     return X, Y, mean_vector
 
 
-def Center_data(X, mean_vector):
+def center_data(X, mean_vector):
     '''
     Step 2: Center the data by subtracting the mean of each feature
     '''
@@ -26,7 +26,7 @@ def Center_data(X, mean_vector):
     return X_centered
 
 
-def Covariance_matrix(X_centered):
+def covariance_matrix(X_centered):
     '''
     Step 3: Compute the covariance matrix
     '''
@@ -200,6 +200,7 @@ def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
     plt.show()
 
     # Show sample reconstructions for k=10 and k=30
+    show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=2)
     show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=10)
     show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k=30)
 
@@ -255,6 +256,11 @@ def m_less_than_n(X, y):
 
     tolerance = 1e-10
     non_zero_count = numpy.sum(eigenvalues_subset >= tolerance)
+    zero_count = numpy.sum(eigenvalues_subset < tolerance)
+
+    # show the values of Non zero and zero counts
+    print(f"Number of near-zero eigenvalues: {zero_count}")
+    print(f"Number of non-zero eigenvalues: {non_zero_count}")
 
     # Visualize eigenvalues
     plt.figure(figsize=(12, 5))
@@ -298,11 +304,11 @@ def main():
     print(f"Step 1: Loaded data with shape {X.shape}")
 
     # Step 2: Center Data
-    X_centered = Center_data(X, mean_vector)
+    X_centered = center_data(X, mean_vector)
     print(f"Step 2: Centered data with shape {X_centered.shape}")
 
     # Step 3: Covariance Matrix
-    C = Covariance_matrix(X_centered)
+    C = covariance_matrix(X_centered)
     print(f"Step 3: Covariance matrix shape {C.shape}")
 
     # Step 4: QR Algorithm
