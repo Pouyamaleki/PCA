@@ -222,7 +222,7 @@ where:
 - Λ is a diagonal matrix of eigenvalues (variance explained by each component).
 - Q is an orthogonal matrix of eigenvectors (directions of principal components).
 
---
+---
 
 ### Step 5️⃣: Dimensionality Reduction (Change of Basis)
 
