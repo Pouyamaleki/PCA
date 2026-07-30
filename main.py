@@ -21,6 +21,11 @@ def load_data():
 def center_data(X, mean_vector):
     '''
     Step 2: Center the data by subtracting the mean of each feature
+    Input:
+        X: Original data matrix
+        mean_vector: Column-wise mean
+    Return:
+        X_centered: Centered data matrix with zero mean in each column
     '''
     X_centered = X - mean_vector
     return X_centered
@@ -29,6 +34,10 @@ def center_data(X, mean_vector):
 def covariance_matrix(X_centered):
     '''
     Step 3: Compute the covariance matrix
+    Input:
+        X_centered: Centered data matrix
+    Return:
+        C: Covariance matrix
     '''
     m = X_centered.shape[0]
     C = (1 / (m - 1)) * np.dot(X_centered.T, X_centered)
@@ -39,6 +48,9 @@ def covariance_matrix(X_centered):
 def qr_algorithm(C, num_iterations=3):
     '''
     Step 4: QR algorithm for eigenvalue computation
+    Input:
+        C: Covariance matrix
+        num_iteration: Number of iterations
     Returns:
         Q_matrices: list of Q matrices from each iteration
     '''
@@ -57,6 +69,11 @@ def qr_algorithm(C, num_iterations=3):
 def demo_on_small_matrix():
     """
     Demo QR algorithm on a small symmetric matrix (4x4)
+    Returns:
+        A: Original matrix
+        Q: Orthogonal matrix from QR decomposition
+        R: Upper-Triangular matrix
+        A1: Resualt of R @ Q
     """
     print("\n" + "=" * 50)
     print("QR Algorithm Demo on 4x4 Symmetric Matrix")
@@ -101,6 +118,11 @@ def demo_on_small_matrix():
 def eigen_decomposition(C):
     '''
     Step 5: Compute eigenvalues and eigenvectors of covariance matrix
+    Input:
+        C: Covariance matrix
+    Returns:
+        eigenvalues: Sorted eigenvalues (decending)
+        eigenvectors: Corresponding eigenvectors
     '''
     eigenvalues, eigenvectors = np.linalg.eigh(C)
     index = np.argsort(eigenvalues)[::-1]
@@ -112,9 +134,11 @@ def eigen_decomposition(C):
 def explained_variance(eigenvalues):
     '''
     Step 6: Calculate and visualize explained variance ratio
+    Input:
+        eigenvalues: Sorted eigenvalues
     Returns:
-        explained_variance_ratio: (n,)
-        cumulative_variance: (n,)
+        explained_variance_ratio: (n)
+        cumulative_variance: (n)
         k_90: number of components for 90% variance
     '''
     total_variance = np.sum(eigenvalues)
@@ -153,6 +177,13 @@ def explained_variance(eigenvalues):
 def dimension_reduction(X_centered, eigenvectors, k):
     '''
     Step 7: Reduce dimensionality by projecting data onto k eigenvectors
+    Input:
+        X_centered: Centered data
+        eigenvectors: Eigenvector matrix
+        k: Number of componenets to keep
+    Returns:
+        W: Matrix of the first k eigenvectors
+        T: Projected data
     '''
     W = eigenvectors[:, :k]
     T = np.dot(X_centered, W)
@@ -162,6 +193,10 @@ def dimension_reduction(X_centered, eigenvectors, k):
 def visualize_2d(X_centered, eigenvectors, y):
     '''
     Step 8: Visualize data in 2D space using first 2 principal components
+    Input:
+        X_centered: Centered data
+        eigenvectors: Eigenvactor matrix
+        y: Labels
     Returns:
         T2: projected data in 2D
     '''
@@ -184,6 +219,14 @@ def visualize_2d(X_centered, eigenvectors, y):
 def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
     """
     Step 9: Reconstruct data and analyze reconstruction error
+    Input:
+        X: Original data
+        X_centered: Centered data
+        eigenvectors: Eigenvector matrix
+        mean_vector: Mean vector
+        y: Labels
+    Returns:
+        errors: List of MSE values for each k
     """
     k_values = [1, 5, 10, 15, 20, 30, 40, 50, 64]
     errors = []
@@ -219,6 +262,16 @@ def reconstruction_error(X, X_centered, eigenvectors, mean_vector, y):
 def show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k, sample_index=0):
     """
     Show original vs reconstructed image for a specific sample
+    Input:
+        X: Original data
+        X_centered: Centered data
+        eigenvectors: Eigenvector matrix
+        mean_vector: Mean vector
+        y: labels
+        k: Number of components used
+        sample_incex: Index of the sample
+    Returns:
+        A figure showing both the original and reconstructed images.
     """
     W = eigenvectors[:, :k]
     T = np.dot(X_centered[sample_index], W)
@@ -243,9 +296,15 @@ def show_sample_reconstruction(X, X_centered, eigenvectors, mean_vector, y, k, s
     plt.show()
 
 
-def m_less_than_n(X, y):
+def m_less_than_n(X):
     """
     Step 10: Analyze the case where m < n (fewer samples than features)
+    Input:
+        X: Original data
+    Returns:
+        eigenvalues_subset: Eigenvalues of the subset
+        eigenvectors_subset: Eigenvectors of the subset
+        X_centered_subset: Centered subset data
     """
     m_subset = 50
     np.random.seed(42)
@@ -304,6 +363,8 @@ def m_less_than_n(X, y):
 def main():
     """
     Main function: Execute all steps of the PCA project
+    Output:
+        A dictionary containing all important variables for later analysis.
     """
     print("=" * 60)
     print("PCA Project - Linear Algebra Final Project")
