@@ -92,6 +92,7 @@ PCA/
 - **Transparent mathematics:** Every step is derived from linear algebra principles
 - **Educational focus:** Detailed comments explaining the "why" behind each operation
 
+---
 
 ### 🧠 Core Mathematical Steps
 
@@ -108,6 +109,7 @@ PCA/
 | **9** | Reconstruction | `X̂ = T Wᵀ + μ` with MSE analysis |
 | **10** | m < n Case | Analyse zero eigenvalues when samples < features |
 
+---
 
 ### 🧪 Comprehensive Testing
 
@@ -115,6 +117,8 @@ PCA/
 - **Edge cases:** 1D data, constant data, extreme k values
 - **QR demo:** Shows similarity of matrices with same eigenvalues
 - **Automated test runner:** One command to validate everything
+
+---
 
 ### 📊 Visualisation & Analysis
 
@@ -124,6 +128,7 @@ PCA/
 - **Reconstruction error vs. k:** Show how error decreases with more components
 - **Sample reconstructions:** Visualise original vs. compressed images (k = 2, 10, 30)
 
+---
 
 <a id="results-visualisations"></a>
 
@@ -135,11 +140,15 @@ The plot shows individual and cumulative explained variance ratios. For the digi
 
 ![Variance](Pictures/Variance.png)
 
+---
+
 ### 2️⃣ 2D Projection of Digits
 
 Projecting the 64‑dimensional digits onto the first two principal components reveals natural clustering. Digits that look similar (e.g., 4 and 9, 3 and 8) tend to overlap, which matches our intuition about handwritten digit similarity.
 
 ![2D_Projection](Pictures/PCA_in_2D.png)
+
+---
 
 ### 3️⃣ Reconstruction Quality
 
@@ -156,6 +165,8 @@ Projecting the 64‑dimensional digits onto the first two principal components r
 
 *_As expected, the reconstruction error decreases as we add more principal components. With all 64 components, the reconstruction is nearly perfect._*
 
+---
+
 ### 4️⃣ Sample Reconstructions
 
 | k = 2 | k = 10 | k = 30 |
@@ -164,6 +175,7 @@ Projecting the 64‑dimensional digits onto the first two principal components r
 
 *_With only 10 components, the digit is already clearly recognisable, demonstrating the power of PCA for compression._*
 
+---
 
 <a id="mathematical-pipeline"></a>
 
@@ -247,9 +259,13 @@ When the number of samples `m` is smaller than the number of features `n`, the c
 🔄 **Reconstruct and evaluate:** Rebuild images from reduced representation and compute MSE for various k.  
 🔍**Explore m < n:** Take a subset of 50 samples and observe the number of zero eigenvalues.
 
+---
+
 ### Why Does PCA Work?
 
 PCA finds the directions (principal components) that maximise the variance of the projected data. These directions are precisely the eigenvectors of the covariance matrix, and the associated eigenvalues tell us how much variance is captured along each direction. By keeping only the top components, we discard dimensions with low variance (which are likely noise or redundant information).
+
+---
 
 ### 📊 PCA Pipeline Diagram
 
@@ -349,6 +365,8 @@ Dimensionality reduction is simply a change of basis:
 
 The Eckart–Young theorem states that the best rank‑`k` approximation of a matrix (in terms of Frobenius norm) is obtained by keeping the top‑`k` singular values/vectors. In PCA, this translates to keeping the top‑k eigenvectors – exactly what we do. The reconstruction `X̂ = T Wᵀ + μ` is the optimal linear reconstruction of the original data using only `k` components.
 
+---
+
 ### 🔢 Why `np.linalg.eigh` instead of `np.linalg.eig`?
 
 In this project, we use `np.linalg.eigh()` specifically for computing eigenvalues and eigenvectors of the covariance matrix. Here's why:
@@ -369,6 +387,7 @@ Since the covariance matrix `C` is **symmetric** (`Cᵀ = C`) and **positive sem
 
 **Tip:** Always use `eigh()` when working with symmetric matrices in scientific computing.
 
+---
 
 <a id="challenges"></a>
 
@@ -423,6 +442,8 @@ Understanding why reconstruction error decreases as `k` increases, and why `k = 
 
 **Solution:**  
 Visualised the MSE for different `k` values. The plot clearly shows that error drops sharply from `k = 1` to `k = 10`, then gradually approaches zero. This aligns with the **Eckart–Young theorem**, which states that the best rank‑`k` approximation of a matrix is obtained by keeping the top‑`k` singular vectors – exactly what PCA does.
+
+---
 
 <a id="key-learning-setup"></a>
 
@@ -494,7 +515,7 @@ pytest
 
 ```
 
-**Tip:** If you run pytest from the project root, it automatically discovers all test files inside the tests/ folder. No need to cd into the directory.
+> **Tip:** If you run pytest from the project root, it automatically discovers all test files inside the tests/ folder. No need to cd into the directory.
 
 ### Requirements
 
@@ -508,6 +529,8 @@ pytest>=7.4.0
 
 ```
 
+---
+
 <a id="developer"></a>
 
 ## 👤 Developer
@@ -516,6 +539,7 @@ pytest>=7.4.0
 |-----------|------|---------------|
 | **Pouya Maleki** | **Sole Developer** | 🧮 **Full Implementation:** Designed and implemented all 10 steps of the PCA pipeline entirely from scratch using NumPy.<br><br>📊 **Mathematical Core:** Engineered the centering, covariance, eigendecomposition, dimensionality reduction, reconstruction, and m<n analysis modules with deep attention to linear algebra correctness.<br><br>🧪 **Testing & Quality Assurance:** Built a comprehensive test suite with 13 test modules covering every function, including edge cases (1D data, constant data, extreme k values).<br><br>🎨 **Visualisation:** Created clear, publication‑ready plots for explained variance, 2D projection, reconstruction errors, and sample reconstructions.<br><br>📝 **Documentation:** Authored detailed inline comments (English & Persian) explaining the mathematical reasoning behind each step, making the code educational and maintainable.<br><br>🚀 **Performance:** Optimised matrix multiplications using vectorised NumPy operations, ensuring efficient execution on the 1797×64 dataset. |
 
+---
 
 <a id="license"></a>
 
