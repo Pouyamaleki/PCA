@@ -185,6 +185,8 @@ Projecting the 64‑dimensional digits onto the first two principal components r
 
 Each image is a vector in ℝ⁶⁴. The dataset matrix X has shape (m, n) where m = 1797 samples and n = 64 features.
 
+---
+
 ### Step 2️⃣: Centering (Translation)
 
 We subtract the mean of each feature:
@@ -193,6 +195,8 @@ We subtract the mean of each feature:
 B = X - μ
 ```
 - **Why?** Without centering, the first principal component would point toward the mean direction rather than the direction of maximum variance.
+
+---
 
 ### Step 3️⃣: Covariance Matrix
 
@@ -203,6 +207,8 @@ C = (BᵀB) / (m - 1)
 - **Properties:** Symmetric (`Cᵀ = C`) and positive semi‑definite (`vᵀCv ≥ 0`).
 
 - **Meaning:** Captures how each pair of features varies together.
+
+---
 
 ### Step 4️⃣: Eigendecomposition
 
@@ -216,6 +222,8 @@ where:
 - Λ is a diagonal matrix of eigenvalues (variance explained by each component).
 - Q is an orthogonal matrix of eigenvectors (directions of principal components).
 
+--
+
 ### Step 5️⃣: Dimensionality Reduction (Change of Basis)
 
 We choose the top‑`k` eigenvectors (columns of `W`) and project the centered data:
@@ -226,6 +234,8 @@ T = B W
 
 - This is a **change of basis** from the standard basis to the principal component basis.
 - The new representation `T` has dimension `m × k`, with `k < n`.
+
+---
 
 ### Step 6️⃣: Reconstruction
 
@@ -238,9 +248,13 @@ X̂ = T Wᵀ + μ
 - The reconstruction error is measured by **Mean Squared Error (MSE)**.
 - Adding more components reduces the error (Eckart–Young theorem).
 
+---
+
 ### Step 7️⃣: m < n Case
 
 When the number of samples `m` is smaller than the number of features `n`, the covariance matrix has at most `m-1` **non‑zero eigenvalues**. The remaining eigenvalues are zero, indicating that the data lies in a subspace of dimension at most `m-1`.
+
+---
 
 <a id="how-it-works"></a>
 
