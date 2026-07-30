@@ -399,7 +399,7 @@ Since the covariance matrix `C` is **symmetric** (`Cᵀ = C`) and **positive sem
 - ✅ **Faster computation:** especially for large matrices (64×64 in this project)
 - ✅ **Correct output:** avoids complex eigenvalues caused by floating‑point errors
 
-**Tip:** Always use `eigh()` when working with symmetric matrices in scientific computing.
+> **Tip:** Always use `eigh()` when working with symmetric matrices in scientific computing.
 
 ---
 
