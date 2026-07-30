@@ -415,7 +415,7 @@ def main():
 
     # Step 10: m < n Case
     eigenvalues_subset, eigenvectors_subset, X_centered_subset = m_less_than_n(
-        X, y)
+        X)
     print("Step 10: m < n case analysis completed")
 
     print("=" * 60)
