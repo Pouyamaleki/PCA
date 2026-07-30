@@ -13,7 +13,7 @@ def test():
     X, y, _ = load_data()
     
     plt.close('all')
-    eigvals_subset, eigvecs_subset, X_centered_subset = m_less_than_n(X, y)
+    eigvals_subset, eigvecs_subset, X_centered_subset = m_less_than_n(X)
     plt.close('all')
     
     m, n = 50, 64
